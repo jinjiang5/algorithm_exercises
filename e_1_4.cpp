@@ -11,7 +11,6 @@
 */
 
 #include <iostream>
-#include <climits>
 using namespace std;
 
 bool is_contain(int *array, int num, int len)
@@ -28,10 +27,11 @@ bool is_contain(int *array, int num, int len)
 
 int not_minmax(int *array, int len)
 {
-    int tmp[] = {INT_MAX, INT_MAX, INT_MAX};
+    int tmp[3];
     for (int i = 0, j = 0; i < len && j < 3; i++)
     {
-        if (!is_contain(tmp, array[i], 3))
+
+        if (!is_contain(tmp, array[i], j))
         {
             tmp[j] = array[i];
             j++;
@@ -44,7 +44,7 @@ int not_minmax(int *array, int len)
 
 int main()
 {
-    int a[] = {1, 1, 2, 3};
+    int a[] = {1, 1, 0, 4};
     int len = sizeof(a) / sizeof(a[0]);
     cout << not_minmax(a, len) << endl;
     return 0;
