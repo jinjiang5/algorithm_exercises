@@ -2,10 +2,9 @@
 
 using namespace std;
 
-int getMaxCnt(int a[], int l, int r)
+void findMode(int a[], int &mode, int &count, int l, int r)
 {
     int mid = (l + r) / 2;
-    int MaxCnt = 0;
     int i, j;
     for (i = 0; i < mid; i++)
     {
@@ -21,33 +20,26 @@ int getMaxCnt(int a[], int l, int r)
             break;
         }
     }
-    if (j - i > MaxCnt)
+    if (j - i > count)
     {
-        MaxCnt = j - i;
+        count = j - i;
+        mode = a[mid];
     }
-    int temp;
-    if (i - 1 - l > MaxCnt)
+    if (i - 1 - l > count)
     {
-        temp = getMaxCnt(a, l, i - 1);
-        if (temp > MaxCnt)
-        {
-            MaxCnt = temp;
-        }
+        findMode(a, mode, count, l, i - 1);
     }
-    if (r - j > MaxCnt)
+    if (r - j > count)
     {
-        temp = getMaxCnt(a, j, r);
-        if (temp > MaxCnt)
-        {
-            MaxCnt = temp;
-        }
+        findMode(a, mode, count, j, r);
     }
-
-    return MaxCnt;
 }
 int main()
 {
-    int a[] = {1, 2, 3, 4, 4, 4, 6, 6, 6, 6, 6};
-    cout << getMaxCnt(a, 0, 11) << endl;
+    int a[] = {1, 2, 3, 3, 3, 4, 4, 5, 5};
+    int len = sizeof(a) / sizeof(a[0]);
+    int mode = 0, count = 0;
+    findMode(a, mode, count, 0, len);
+    cout << "数组a的众数为" << mode << ",出现次数为" << count << endl;
     return 0;
 }
