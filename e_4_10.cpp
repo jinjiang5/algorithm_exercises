@@ -1,12 +1,22 @@
 #include <iostream>
-
 using namespace std;
+int mode;
 
-void findMode(int a[], int &mode, int &count, int l, int r)
+int findMode(int a[], int l, int r)
 {
+    int t = 0, t1 = 0, t2 = 0, i, j;
     int mid = (l + r) / 2;
-    int i, j;
-    for (i = 0; i < mid; i++)
+    if (r != l)
+    {
+        t = findMode(a, l, mid);
+        t2 = findMode(a, mid + 1, r);
+        if (t2 > t)
+        {
+            t = t2;
+        }
+    }
+
+    for (i = l; i < mid; i++)
     {
         if (a[i] == a[mid])
         {
@@ -20,26 +30,21 @@ void findMode(int a[], int &mode, int &count, int l, int r)
             break;
         }
     }
-    if (j - i > count)
+    int t3 = j - i;
+    if (t3 > t)
     {
-        count = j - i;
+        t = t3;
         mode = a[mid];
     }
-    if (i - 1 - l > count)
-    {
-        findMode(a, mode, count, l, i - 1);
-    }
-    if (r - j > count)
-    {
-        findMode(a, mode, count, j, r);
-    }
+    return t;
 }
+
 int main()
 {
-    int a[] = {1, 2, 3, 3, 3, 4, 4, 5, 5};
+    int a[] = {1,2,3,3,3,4,4,5,5};
     int len = sizeof(a) / sizeof(a[0]);
-    int mode = 0, count = 0;
-    findMode(a, mode, count, 0, len);
+    int count = 0;
+    count = findMode(a, 0, len-1);
     cout << "数组a的众数为" << mode << ",出现次数为" << count << endl;
     return 0;
 }
